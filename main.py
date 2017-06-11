@@ -17,7 +17,7 @@ def get_config():
 
 
 def main(config):
-    updater = Updater(token)
+    updater = Updater(config['token'])
     j = updater.job_queue
 
     def newAlert(bot, job):
