@@ -16,13 +16,13 @@ def get_config():
     return dict(token=token, chat_id=chat_id, gittoken=gittoken)
 
 
-def main(config={}):
+def main(config):
     updater = Updater(token)
     j = updater.job_queue
 
     def newAlert(bot, job):
         '''Polls the GitHub API every 2.5 minutes for new notifications.'''
-        output = notifications(config=config)
+        output = notifications(config)
         if output:
             bot.sendMessage(chat_id=config['chat_id'], text=output, parse_mode='markdown')
 
@@ -36,4 +36,4 @@ def main(config={}):
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.WARNING)
     config = get_config()
-    main(config=config)
+    main(config)
