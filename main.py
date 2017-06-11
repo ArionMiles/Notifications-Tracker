@@ -24,7 +24,7 @@ def main(config={}):
         '''Polls the GitHub API every 2.5 minutes for new notifications.'''
         output = notifications(config=config)
         if output:
-            bot.sendMessage(chat_id=chat_id, text=output, parse_mode='markdown')
+            bot.sendMessage(chat_id=config['chat_id'], text=output, parse_mode='markdown')
 
     job_minute = Job(newAlert, 150.0)
     j.put(job_minute, next_t=0.0)

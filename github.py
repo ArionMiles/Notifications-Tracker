@@ -2,8 +2,6 @@
 import os
 import json
 import textwrap
-import ConfigParser
-
 import requests
 
 BASEURL = "https://api.github.com/notifications"
@@ -30,7 +28,7 @@ def build_notification_message(notifcation, config):
     subjectTitle = notification['subject']['title']
     subjectURL = notification['subject']['latest_comment_url']
 
-    html_req = requests.get(url=subjectURL, headers={'Authorization' : config.GITTOKEN})
+    html_req = requests.get(url=subjectURL, headers={'Authorization' : config['gittoken']})
     subject_resp = json.loads(html_req.text)
     subjectURL2 = subject_resp['html_url']
     subjectType = notification['subject']['type']
@@ -48,9 +46,9 @@ def build_notification_message(notifcation, config):
     return messageContent
 
 
-def notifications():
+def notifications(config)
     """Check GitHub for Notifications"""
-    req = requests.get(url=BASEURL, headers={'Authorization' : config.GITTOKEN})
+    req = requests.get(url=BASEURL, headers={'Authorization' : config['gittoken']})
     notifications = json.loads(req.text)
     unique_id = get_unique_ids()
 
@@ -58,7 +56,7 @@ def notifications():
     for notification in notifications:
         if str(notifcation['updated_at']) not in unique_id:
             unique_id = str(notification['updated_at'])
-            messageContent = build_notification_message(notification)
+            messageContent = build_notification_message(notification, config)
             with open('updated_at.txt', 'a') as record:
                 record.write (unique_id + '\n')
 
